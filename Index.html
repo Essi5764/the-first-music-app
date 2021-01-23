@@ -22,7 +22,10 @@
         <div class="col-md-4" style="background-color:aqua">TABLE<br>TABLE</div>
         <div class="col-md-8">
             <div class="row">
-                <div class="col-md-12" style="background-color:purple">SLIDER</div>
+                <div class="col-md-12" style="background-color:purple">
+                  <select id="selDataset" onchange="optionChanged(this.value)">
+                  </select>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6" style="background-color:green">GRAPH 1<br>GRAPH 1</div>
@@ -62,7 +65,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="./static/js/app.js"></script>
-  <script src="./static/js/bonus.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
+
   
 </body>
 
