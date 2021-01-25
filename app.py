@@ -4,7 +4,7 @@ import data
 
 
     
-engine = create_engine("sqlite:///Resources/hawaii.sqlite")
+engine = create_engine("sqlite:///Resources/SpotifyData.sqlite")
 # reflect an existing database into a new model
 Base = automap_base()
 # reflect the tables
