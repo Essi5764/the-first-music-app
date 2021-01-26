@@ -27,13 +27,13 @@ function getData() {
         var select = d3.select("#selDataset")
         
         // Pull averages of variables for full dataset
-        var avgDanceabilityTotal = data.reduce((a,b) => a + Number(b.danceability), 0) / data.length
-        var avgEnergyTotal = data.reduce((a,b) => a + Number(b.energy), 0) / data.length
-        var avgInstrumentalnessTotal = data.reduce((a,b) => a + Number(b.instrumentalness), 0) / data.length
-        var avgLoudnessTotal = Math.abs(data.reduce((a,b) => a + Number(b.loudness), 0) / data.length)
+        var avgDanceabilityTotal = (data.reduce((a,b) => a + Number(b.danceability), 0) / data.length)*100
+        var avgEnergyTotal = (data.reduce((a,b) => a + Number(b.energy), 0) / data.length)*100
+        var avgInstrumentalnessTotal = (data.reduce((a,b) => a + Number(b.instrumentalness), 0) / data.length)*100
+        var avgLoudnessTotal = (Math.abs(data.reduce((a,b) => a + Number(b.loudness), 0) / data.length))*(5/3)
         var avgPopularityTotal = data.reduce((a,b) => a + Number(b.popularity), 0) / data.length
-        var avgSpeechinessTotal = data.reduce((a,b) => a + Number(b.speechiness), 0) / data.length
-        var avgTempoTotal = data.reduce((a,b) => a + Number(b.tempo), 0) / data.length
+        var avgSpeechinessTotal = (data.reduce((a,b) => a + Number(b.speechiness), 0) / data.length)*100
+        var avgTempoTotal = (data.reduce((a,b) => a + Number(b.tempo), 0) / data.length)*(2/3)
 
         // Create an array of values of full dataset
         var hbarVariablesTotal = [avgDanceabilityTotal, avgEnergyTotal, avgInstrumentalnessTotal, avgLoudnessTotal, avgPopularityTotal, avgSpeechinessTotal, avgTempoTotal];
@@ -64,13 +64,13 @@ function getData() {
         var filteredData = data.filter(filterData);
 
         // Pull all data from samples for horizontal bar chart (convert variables to positive numbers)
-        var avgDanceability = filteredData.reduce((a,b) => a + Number(b.danceability), 0) / filteredData.length
-        var avgEnergy = filteredData.reduce((a,b) => a + Number(b.energy), 0) / filteredData.length
-        var avgInstrumentalness = filteredData.reduce((a,b) => a + Number(b.instrumentalness), 0) / filteredData.length
-        var avgLoudness = Math.abs(filteredData.reduce((a,b) => a + Number(b.loudness), 0) / filteredData.length)
+        var avgDanceability = (filteredData.reduce((a,b) => a + Number(b.danceability), 0) / filteredData.length)*100
+        var avgEnergy = (filteredData.reduce((a,b) => a + Number(b.energy), 0) / filteredData.length)*100
+        var avgInstrumentalness = (filteredData.reduce((a,b) => a + Number(b.instrumentalness), 0) / filteredData.length)*100
+        var avgLoudness = (Math.abs(filteredData.reduce((a,b) => a + Number(b.loudness), 0) / filteredData.length))*(5/3)
         var avgPopularity = filteredData.reduce((a,b) => a + Number(b.popularity), 0) / filteredData.length
-        var avgSpeechiness = filteredData.reduce((a,b) => a + Number(b.speechiness), 0) / filteredData.length
-        var avgTempo = filteredData.reduce((a,b) => a + Number(b.tempo), 0) / filteredData.length
+        var avgSpeechiness = (filteredData.reduce((a,b) => a + Number(b.speechiness), 0) / filteredData.length)*100
+        var avgTempo = (filteredData.reduce((a,b) => a + Number(b.tempo), 0) / filteredData.length)*(2/3)
         
         // Create array of values for hbar graph
         var hbarVariables = [avgDanceability, avgEnergy, avgInstrumentalness, avgLoudness, avgPopularity, avgSpeechiness, avgTempo]
@@ -107,7 +107,8 @@ function getData() {
             },
             yaxis: {
                 automargin: true
-            }
+            },
+            xaxis: {range: [0,101]},
         };
 
         Plotly.newPlot('hbar', hbarChart, layout1, {displayModeBar: false})
@@ -120,7 +121,8 @@ function getData() {
         var trace3 = {
             x: [""],
             y: [percentExplicit],
-            name: "Percent Explicit",
+            marker: {color: 'rgb(26, 118, 255)'},
+            name: "Explicit",
             type: "bar"
         };
         
@@ -128,14 +130,17 @@ function getData() {
         var trace4 = {
             x: [""],
             y: [percentClean],
-            name: "Percent Clean",
+            marker: {color: 'rgb(55, 83, 109)'},
+            name: "Clean",
             type: "bar"
         };
 
         var stackData = [trace3, trace4];
 
         var stackLayout = {
-            barmode: 'stack'
+            barmode: 'stack',
+            showlegend: false,
+            title: 'Percent Explicit'
         };
 
         Plotly.newPlot('stackBar', stackData, stackLayout, {displayModeBar: false});
@@ -144,7 +149,7 @@ function getData() {
         var popularitySorted = _.orderBy(filteredData, ['popularity'], ['desc']).slice(0, 10);
 
         // CATEGORICAL DOT PLOT
-        var topTenSongsLabels = popularitySorted.map(popularitySorted => `${popularitySorted.name} ${popularitySorted.artists}`);
+        var topTenSongsLabels = popularitySorted.map(popularitySorted => `${popularitySorted.name} ${popularitySorted.artists}`).reverse();
         var topTenSongsPopularity = popularitySorted.map(popularitySorted => popularitySorted.popularity).reverse();
 
         // Trace 5 for categorical dot plot
@@ -155,7 +160,7 @@ function getData() {
             mode: 'markers',
             name: 'Popularity',
             marker: {
-                color: 'rgba(156, 165, 196, 0.95)',
+                color: 'rgba(26, 118, 255)',
                 line: {
                   color: 'rgba(156, 165, 196, 1.0)',
                   width: 1,
@@ -168,7 +173,7 @@ function getData() {
         var dotData = [trace5];
 
         var dotLayout = {
-            title: `Top Ten Songs of ${chosenYear}`,
+            title: `Top Ten Songs of ${chosenYear} with Popularity`,
             xaxis: {
                 showgrid: false,
                 showline: true,
@@ -186,7 +191,8 @@ function getData() {
                 autotick: false,
                 dtick: 10,
                 ticks: 'outside',
-                tickcolor: 'rgb(102, 102, 102)'
+                tickcolor: 'rgb(102, 102, 102)',
+                range: [0,101]
               },
               margin: {
                 l: 140,
@@ -201,10 +207,9 @@ function getData() {
                 yanchor: 'middle',
                 xanchor: 'right'
               },
-              width: 600,
               height: 600,
-              paper_bgcolor: 'rgb(254, 247, 234)',
-              plot_bgcolor: 'rgb(254, 247, 234)',
+            //   paper_bgcolor: 'rgb(254, 247, 234)',
+            //   plot_bgcolor: 'rgb(254, 247, 234)',
               hovermode: 'closest',
               yaxis: {
                 automargin: true

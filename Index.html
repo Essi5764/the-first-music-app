@@ -10,31 +10,30 @@
 </head>
 
 <body>
-
   <div class="container">
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
-        <h1>SPOTIFY STUFF</h1>
-        <p>Use the slider to select a year for more information</p>
+        <h1>Music (DATA) Mixer</h1>
+        <p>Inspired by DJs mixing the top hits at the bar, the Music (DATA) Mixer let's you create your own mix tape, but with data. Using data from the Spotify API, take a look at the data behind your favorite years of music.</p>
       </div>
     </div>
     <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-9">
-            <div class="row">
-                <div class="col-md-12">
-                  <select id="selDataset" onchange="optionChanged(this.value)">
-                  </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-8" id="hbar" style="height: 500px"></div>
-                <div class="col-md-4" id="stackBar" style="height: 500px"></div>
-            </div>
-            <div class="row">
-                <div class="col-md-12" id="dotPlot"></div>
-            </div>
+        <div class="col-md-12">
+          <select id="selDataset" onchange="optionChanged(this.value)">
+          </select>
         </div>
+        <div class="col-md-3" style="padding-right: 20px">
+          <h3>How to Use</h3>
+          <h3>Define variables in bar chart</h3>
+          <h3>Created by</h3>
+          <h3>Metadata</h3>
+        </div>
+        <div class="col-md-6" id="hbar" style="height: 500px"></div>
+        <div class="col-md-3" id="stackBar" style="height: 500px"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" id="dotPlot"></div>
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
