@@ -15,7 +15,6 @@ function optionChanged() {
 // Get unique years
 function getUniqueYear(data) {
     years = _.uniq(data.map(data => data.year))
-    console.log(years)
     return years
 };
 
@@ -37,8 +36,7 @@ function getData() {
         var avgTempoTotal = data.reduce((a,b) => a + Number(b.tempo), 0) / data.length
 
         // Create an array of values of full dataset
-        var hbarVariablesTotal = [avgDanceabilityTotal, avgEnergyTotal, avgInstrumentalnessTotal, avgLoudnessTotal, avgPopularityTotal, avgSpeechinessTotal, avgTempoTotal]
-        console.log(hbarVariablesTotal)
+        var hbarVariablesTotal = [avgDanceabilityTotal, avgEnergyTotal, avgInstrumentalnessTotal, avgLoudnessTotal, avgPopularityTotal, avgSpeechinessTotal, avgTempoTotal];
 
         // Populate drop down menu with unique years
         select.selectAll('option')
@@ -56,7 +54,6 @@ function getData() {
         // Create variable for chosen year
         var chosenYear = document.getElementById('selDataset');
         var chosenYear = chosenYear.options[chosenYear.selectedIndex].value;
-        console.log(chosenYear)
 
         // Create a function that returns metadata based on id number
         function filterData(data) {
@@ -65,9 +62,6 @@ function getData() {
 
         // Filter full data by chosen year
         var filteredData = data.filter(filterData);
-
-        // Print filtered data to console for testing
-        console.log(filteredData);
 
         // Pull all data from samples for horizontal bar chart (convert variables to positive numbers)
         var avgDanceability = filteredData.reduce((a,b) => a + Number(b.danceability), 0) / filteredData.length
@@ -80,11 +74,9 @@ function getData() {
         
         // Create array of values for hbar graph
         var hbarVariables = [avgDanceability, avgEnergy, avgInstrumentalness, avgLoudness, avgPopularity, avgSpeechiness, avgTempo]
-        console.log(hbarVariables)
 
         // Create array of labels for hbar graph
         var hbarLabels = ['Danceability', 'Energy', 'Instrumentalness', 'Loudness', 'Popularity', 'Speechiness', 'Tempo']
-        console.log(hbarLabels)
 
         // Trace1 and 2 for the grouped horizontal bar chart
         var trace1 = {
@@ -118,7 +110,7 @@ function getData() {
             }
         };
 
-        Plotly.newPlot('hbar', hbarChart, layout1)
+        Plotly.newPlot('hbar', hbarChart, layout1, {displayModeBar: false})
 
         // STACKED BAR CHART BEGINS
         var percentExplicit = 100 * (filteredData.reduce((a,b) => a + Number(b.explicit), 0) / filteredData.length)
@@ -132,6 +124,7 @@ function getData() {
             type: "bar"
         };
         
+        // Trace 4 for stacked bar chart
         var trace4 = {
             x: [""],
             y: [percentClean],
@@ -145,6 +138,79 @@ function getData() {
             barmode: 'stack'
         };
 
-        Plotly.newPlot('stackBar', stackData, stackLayout);
+        Plotly.newPlot('stackBar', stackData, stackLayout, {displayModeBar: false});
+
+        // Sort filteredData by popularity and slice top 10
+        var popularitySorted = _.orderBy(filteredData, ['popularity'], ['desc']).slice(0, 10);
+
+        // CATEGORICAL DOT PLOT
+        var topTenSongsLabels = popularitySorted.map(popularitySorted => `${popularitySorted.name} ${popularitySorted.artists}`);
+        var topTenSongsPopularity = popularitySorted.map(popularitySorted => popularitySorted.popularity).reverse();
+
+        // Trace 5 for categorical dot plot
+        var trace5 = {
+            type: 'scatter',
+            x: topTenSongsPopularity,
+            y: topTenSongsLabels,
+            mode: 'markers',
+            name: 'Popularity',
+            marker: {
+                color: 'rgba(156, 165, 196, 0.95)',
+                line: {
+                  color: 'rgba(156, 165, 196, 1.0)',
+                  width: 1,
+                },
+                symbol: 'circle',
+                size: 16
+              }
+        };
+
+        var dotData = [trace5];
+
+        var dotLayout = {
+            title: `Top Ten Songs of ${chosenYear}`,
+            xaxis: {
+                showgrid: false,
+                showline: true,
+                linecolor: 'rgb(102, 102, 102)',
+                titlefont: {
+                  font: {
+                    color: 'rgb(204, 204, 204)'
+                  }
+                },
+                tickfont: {
+                  font: {
+                    color: 'rgb(102, 102, 102)'
+                  }
+                },
+                autotick: false,
+                dtick: 10,
+                ticks: 'outside',
+                tickcolor: 'rgb(102, 102, 102)'
+              },
+              margin: {
+                l: 140,
+                r: 40,
+                b: 50,
+                t: 80
+              },
+              legend: {
+                font: {
+                  size: 10,
+                },
+                yanchor: 'middle',
+                xanchor: 'right'
+              },
+              width: 600,
+              height: 600,
+              paper_bgcolor: 'rgb(254, 247, 234)',
+              plot_bgcolor: 'rgb(254, 247, 234)',
+              hovermode: 'closest',
+              yaxis: {
+                automargin: true
+            }
+            };
+
+        Plotly.newPlot('dotPlot', dotData, dotLayout, {displayModeBar: false});
     });
 };
