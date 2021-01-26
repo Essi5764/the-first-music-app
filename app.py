@@ -16,8 +16,8 @@ def home():
 #     return render_template('viz2.html')
 @app.route('/SpotifyData', methods=['GET'])
 def database_data():
-    # data = data.get_db_data()
-    spotdata = {"this": "is my database data"}
+    spotdata = data.get_db_data()
+    #spotdata = {"this": "is my database data"}
     return jsonify(spotdata)
 
 

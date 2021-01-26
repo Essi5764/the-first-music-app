@@ -12,7 +12,7 @@ def get_db_data():
     connection_string = "postgres:postgres@localhost:5432/Spotify_project"
     engine = create_engine(f'postgresql://{connection_string}')
     # Query data
-    sql_query = pd.read_sql_query(' Select * FROM SpotifyData', connection_string)
+    sql_query = pd.read_sql_query(' Select * FROM SpotifyData', engine)
     # Return data in json format
     return jsonify(get_db_data)
 
