@@ -7,8 +7,6 @@ function optionChanged() {
     // Assign the dropdown menu option to a variable
     var selectedOption = dropdownMenu.value;
 
-    // console.log(selectedOption);
-
     getData();
 };
 
@@ -24,20 +22,8 @@ function getData() {
 
     // Read data from CSV file
     d3.json("http://localhost:5000/SpotifyData").then (function(data) {
-        // console.log(data);
-        var select = d3.select("#selDataset")
-        
-        // Pull averages of variables for full dataset
-        var avgDanceabilityTotal = (data.reduce((a,b) => a + Number(b.danceability), 0) / data.length)*100
-        var avgEnergyTotal = (data.reduce((a,b) => a + Number(b.energy), 0) / data.length)*100
-        var avgInstrumentalnessTotal = (data.reduce((a,b) => a + Number(b.instrumentalness), 0) / data.length)*100
-        var avgLoudnessTotal = (Math.abs(data.reduce((a,b) => a + Number(b.loudness), 0) / data.length))*(5/3)
-        var avgPopularityTotal = data.reduce((a,b) => a + Number(b.popularity), 0) / data.length
-        var avgSpeechinessTotal = (data.reduce((a,b) => a + Number(b.speechiness), 0) / data.length)*100
-        var avgTempoTotal = (data.reduce((a,b) => a + Number(b.tempo), 0) / data.length)*(2/3)
 
-        // Create an array of values of full dataset
-        var hbarVariablesTotal = [avgDanceabilityTotal, avgEnergyTotal, avgInstrumentalnessTotal, avgLoudnessTotal, avgPopularityTotal, avgSpeechinessTotal, avgTempoTotal];
+        var select = d3.select("#selDataset")
 
         // Populate drop down menu with unique years
         select.selectAll('option')
@@ -72,19 +58,31 @@ function getData() {
         var avgPopularity = filteredData.reduce((a,b) => a + Number(b.popularity), 0) / filteredData.length
         var avgSpeechiness = (filteredData.reduce((a,b) => a + Number(b.speechiness), 0) / filteredData.length)*100
         var avgTempo = (filteredData.reduce((a,b) => a + Number(b.tempo), 0) / filteredData.length)*(2/3)
+
+        // Pull averages of variables for full dataset
+        var avgDanceabilityTotal = (data.reduce((a,b) => a + Number(b.danceability), 0) / data.length)*100
+        var avgEnergyTotal = (data.reduce((a,b) => a + Number(b.energy), 0) / data.length)*100
+        var avgInstrumentalnessTotal = (data.reduce((a,b) => a + Number(b.instrumentalness), 0) / data.length)*100
+        var avgLoudnessTotal = (Math.abs(data.reduce((a,b) => a + Number(b.loudness), 0) / data.length))*(5/3)
+        var avgPopularityTotal = data.reduce((a,b) => a + Number(b.popularity), 0) / data.length
+        var avgSpeechinessTotal = (data.reduce((a,b) => a + Number(b.speechiness), 0) / data.length)*100
+        var avgTempoTotal = (data.reduce((a,b) => a + Number(b.tempo), 0) / data.length)*(2/3)
+
+        // Create an array of values of full dataset
+        var hbarVariablesTotal = [avgDanceabilityTotal, avgEnergyTotal, avgInstrumentalnessTotal, avgLoudnessTotal, avgPopularityTotal, avgSpeechinessTotal, avgTempoTotal];
         
         // Create array of values for hbar graph
         var hbarVariables = [avgDanceability, avgEnergy, avgInstrumentalness, avgLoudness, avgPopularity, avgSpeechiness, avgTempo]
 
         // Create array of labels for hbar graph
-        var hbarLabels = ['Danceability', 'Energy', 'Instrumentalness', 'Loudness', 'Popularity', 'Speechiness', 'Tempo']
+        var hbarLabels = ['Danceability ', 'Energy ', 'Instrumentalness ', 'Loudness ', 'Popularity ', 'Speechiness ', 'Tempo ']
 
         // Trace1 and 2 for the grouped horizontal bar chart
         var trace1 = {
             x: hbarVariables,
             y: hbarLabels,
             name: `${chosenYear}`,
-            marker: {color: 'rgb(26, 118, 255)'},
+            marker: {color: '#1DB954'},
             type: 'bar',
             orientation: 'h'
         };
@@ -93,7 +91,7 @@ function getData() {
             x: hbarVariablesTotal,
             y: hbarLabels,
             name: '2000-2021',
-            marker: {color: 'rgb(55, 83, 109)'},
+            marker: {color: '#000000'},
             type: 'bar',
             orientation: 'h'
         };
@@ -101,7 +99,7 @@ function getData() {
         var hbarChart = [trace1, trace2];
 
         var layout1 = {
-            title: `${chosenYear} Music At a Glance`,
+            title: `<b>${chosenYear} Music At a Glance</b>`,
             barmode: 'group',
             legend: {
                 'orientation': 'h'
@@ -122,26 +120,17 @@ function getData() {
         var trace3 = {
             x: [""],
             y: [percentExplicit],
-            marker: {color: 'rgb(26, 118, 255)'},
+            marker: {color: '#1DB954'},
             name: "Explicit",
             type: "bar"
         };
-        
-        // Trace 4 for stacked bar chart
-        var trace4 = {
-            x: [""],
-            y: [percentClean],
-            marker: {color: 'rgb(55, 83, 109)'},
-            name: "Clean",
-            type: "bar"
-        };
 
-        var stackData = [trace3, trace4];
+        var stackData = [trace3];
 
         var stackLayout = {
-            barmode: 'stack',
             showlegend: false,
-            title: 'Percent Explicit'
+            title: '<b>Percent Explicit</b>',
+            yaxis: {range: [0,101]},
         };
 
         Plotly.newPlot('stackBar', stackData, stackLayout, {displayModeBar: false});
@@ -150,7 +139,7 @@ function getData() {
         var popularitySorted = _.orderBy(filteredData, ['popularity'], ['desc']).slice(0, 10);
 
         // CATEGORICAL DOT PLOT
-        var topTenSongsLabels = popularitySorted.map(popularitySorted => `${popularitySorted.name} ${popularitySorted.artists}`).reverse();
+        var topTenSongsLabels = popularitySorted.map(popularitySorted => `${popularitySorted.name} ${popularitySorted.artists} `).reverse();
         var topTenSongsPopularity = popularitySorted.map(popularitySorted => popularitySorted.popularity).reverse();
 
         // Trace 5 for categorical dot plot
@@ -161,60 +150,64 @@ function getData() {
             mode: 'markers',
             name: 'Popularity',
             marker: {
-                color: 'rgba(26, 118, 255)',
+                color: '#000000',
                 line: {
-                  color: 'rgba(156, 165, 196, 1.0)',
+                  color: '#000000',
                   width: 1,
                 },
                 symbol: 'circle',
                 size: 16
-              }
+              },
         };
 
         var dotData = [trace5];
 
         var dotLayout = {
-            title: `Top Ten Songs of ${chosenYear} with Popularity`,
+            title: {
+              text: `<b>Top Ten Songs of ${chosenYear} with Popularity</b>`,
+              font: {
+                color: '#FFFFFF'
+              },
+                },
             xaxis: {
                 showgrid: false,
                 showline: true,
-                linecolor: 'rgb(102, 102, 102)',
-                titlefont: {
-                  font: {
-                    color: 'rgb(204, 204, 204)'
-                  }
-                },
+                linecolor: '#FFFFFF',
+                text: {
+                    color: '#FFFFFF'
+                  },
                 tickfont: {
-                  font: {
-                    color: 'rgb(102, 102, 102)'
-                  }
+                    color: '#FFFFFF'
                 },
                 autotick: false,
                 dtick: 10,
                 ticks: 'outside',
-                tickcolor: 'rgb(102, 102, 102)',
-                range: [0,101]
+                tickcolor: '#FFFFFF',
+                range: [70,101]
               },
-              margin: {
+            margin: {
                 l: 140,
                 r: 40,
                 b: 50,
                 t: 80
               },
-              legend: {
+            legend: {
                 font: {
                   size: 10,
                 },
                 yanchor: 'middle',
                 xanchor: 'right'
               },
-              height: 600,
-            //   paper_bgcolor: 'rgb(254, 247, 234)',
-            //   plot_bgcolor: 'rgb(254, 247, 234)',
-              hovermode: 'closest',
-              yaxis: {
-                automargin: true
-            }
+            height: 600,
+            hovermode: 'closest',
+            yaxis: {
+                automargin: true,
+                tickfont: {
+                  color: '#FFFFFF'
+              },
+              },
+            paper_bgcolor: '#1DB954',
+            plot_bgcolor: '#FFFFFF',
             };
 
         Plotly.newPlot('dotPlot', dotData, dotLayout, {displayModeBar: false});

@@ -15,20 +15,6 @@ def get_db_data():
     print(engine.table_names())
     # Query data
     sql_query = pd.read_sql_table('SpotifyData', f'postgresql://{connection_string}')
-    # sql_query = engine.execute('SELECT * FROM spotifydata')
-    # d, a = {}, []
-    # for rowproxy in sql_query:
-    #     # rowproxy.items() returns an array like [(key0, value0), (key1, value1)]
-    #     for column, value in rowproxy.items():
-    #         # build up the dictionary
-    #         d = {**d, **{column: value}}
-    #     a.append(d)
-    #         #print(d)
+
     # Return data in json format
     return sql_query.to_dict("records")
-
-# def get_api_data():
-#     # Query to api
-
-#     # Return data in json format
-#     pass

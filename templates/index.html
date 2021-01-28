@@ -8,103 +8,75 @@
   <title>Spotify Dashboard</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <style>
-    .range-wrap {
-      position: relative;
-      margin: 0 auto 3rem;
+    p {
+      font-size: 14px;
     }
-    .range {
-      width: 100%;
-    }
-    .bubble {
-      background: red;
-      color: white;
-      padding: 4px 12px;
-      position: absolute;
-      border-radius: 4px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .bubble::after {
-      content: "";
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: red;
-      top: -1px;
-      left: 50%;
-    }
-    
-    body {
-      margin: 2rem;
-    }
-    
-    
-    
-    Resources
   </style>
 </head>
 
 <body>
   <div class="container">
     <div class="row">
-      <div class="col-md-12 jumbotron text-center">
-        <h1>Music (DATA) Mixer</h1>
-        <p>Inspired by DJs mixing the top hits at the bar, the Music (DATA) Mixer let's you create your own mix tape, but with data. Using data from the Spotify API, take a look at the data behind your favorite years of music.</p>
+      <div class="col-md-12 text-center">
+        <br>
+        <h1 style="color: #1DB954; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Music (DATA) Mixer</h1>
+        <p style="padding-bottom: 20px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid">Inspired by DJs mixing the top hits at the bar, the Music (DATA) Mixer let's you create your own mix tape, but with data.<br>Using data from the Spotify API, take a look at the data behind your favorite years of music.</p>
+      </div>
+      <div class="col-md-4" style="padding-top: 15px; padding-bottom: 15px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid">
+        <h4 style="text-align: center">Total Dataset</h4>
+        <p style="text-align: center">41,450 Songs</p>
+      </div>
+      <div class="col-md-4" style="padding-top: 15px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid">
+        <h4 style="text-align: center">Sum of Song Lengths</h4>
+        <p style="text-align: center">3.65 Months</p>
+      </div>
+      <div class="col-md-4" style="padding-top: 15px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid">
+        <h4 style="text-align: center">Created By</h4>
+        <p style="text-align: center">Max Browning, Candy Capilla, Essi Monneus</p>
       </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
+    <div class="row" style="margin-top: 25px">
+      <div class="col-md-3" style="padding-right: 20px; border-right-width: 1px; border-right-color: black; border-right-style: solid">
+        <h3 style="color: #1DB954">Variables</h3>
+        <p><strong>Tempo:</strong> The speed at which a passage of music is or should be played.</p>
+        <p><strong>Speechiness:</strong> The presence of spoken or sung words in a track.</p>
+        <p><strong>Popularity:</strong> The state of being liked or supported by many people.</p>
+        <p><strong>Loudness:</strong> The subjective perception of sound pressure.</p>
+        <p><strong>Instrumentalness :</strong> The quality or condition of being instrumental.</p>
+        <p><strong>Energy:</strong> The combination of volume, pitch, and frequency.</p>
+        <p><strong>Danceability:</strong> Appropriate for or conducive to dancing.</p>
+        <p><strong>Explicitness:</strong> Containing graphic or offensive language.</p>
+        <br>
+        <p>* All variables have been standardized to range from 0 - 100.</p>
+      </div>
+      <div class="col-md-9 text-center">
+        <h4>YEAR OF INTEREST</h4>
+        <div class="col-md-12 text-center" style="margin-bottom: 10px">
           <select id="selDataset" onchange="optionChanged(this.value)">
           </select>
         </div>
-        <div class="col-md-3" style="padding-right: 20px">
-          <h3>Variables</h3>
-          <p>Tempo: The speed at which a passage of music is or should be played.</p>
-          <p>Speechiness: It detects the presence of spoken words in a track</p>
-          <p>Popularity: The state or condition of being liked, admired, or supported by many people.</p>
-          <p>Loudness is The subjective perception of sound pressure.</p>
-          <p>Instrumentalness : The quality or condition of being instrumental</p>
-          <p>Popularity: the state or condition of being liked, admired, or supported by many people.</p>
+        <div class='row'>
+          <div class="col-md-8" id="hbar" style="height: 500px"></div>
+          <div class="col-md-4" id="stackBar" style="height: 500px"></div>
         </div>
-        <div class="col-md-6" id="hbar" style="height: 500px"></div>
-        <div class="col-md-3" id="stackBar" style="height: 500px"></div>
+      </div>
     </div>
+    <br>
     <div class="row">
-        <div class="col-md-12" id="dotPlot"></div>
+      <div class="col-md-12" id="dotPlot"></div>
     </div>
   </div>
-  <div class="range-wrap">
-    <input type="range" class="range">
-    <output class="bubble"></output>
-  </div>
+
+
+  <!-- <div class="row" style="padding-bottom: 20px; border-bottom-width: 1px; border-bottom-color: black; border-bottom-style: solid">
+
+  </div> -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-  <script>
-  
-    var allRanges = document.querySelectorAll(".range-wrap");
-    allRanges.forEach(wrap => {
-    var range = wrap.querySelector(".range");
-    var bubble = wrap.querySelector(".bubble");
-    range.addEventListener("input", () => {
-      console.log(range.value)
-      setBubble(range, bubble);
-    });
-    })
-    function setBubble(range, bubble) {
-      var val = range.value;
-      var min = range.min ? range.min : 0;
-      var max = range.max ? range.max : 100;
-      var newVal = Number(((val - min) * 100) / (max - min));
-      bubble.innerHTML = val;
-    
-      // Sorta magic numbers based on size of the native UI thumb
-      bubble.style.left = newVal = "%";
-    }
-  </script>
   <script src="./static/js/app.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
   
