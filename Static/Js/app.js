@@ -7,7 +7,7 @@ function optionChanged() {
     // Assign the dropdown menu option to a variable
     var selectedOption = dropdownMenu.value;
 
-    console.log(selectedOption);
+    // console.log(selectedOption);
 
     getData();
 };
@@ -24,7 +24,7 @@ function getData() {
 
     // Read data from CSV file
     d3.json("http://localhost:5000/SpotifyData").then (function(data) {
-        console.log(data);
+        // console.log(data);
         var select = d3.select("#selDataset")
         
         // Pull averages of variables for full dataset

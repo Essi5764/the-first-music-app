@@ -1,1 +1,0 @@
-db_pass = 'ducktails1'
