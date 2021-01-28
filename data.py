@@ -6,14 +6,15 @@ from flask import (
     redirect)
 import pandas as pd
 from sqlalchemy import create_engine
+from config import db_pass
 
 def get_db_data():
     # Connect to database
-    connection_string = "postgres:postgres@localhost:5432/Spotify_project"
+    connection_string = f"postgres:{db_pass}@localhost:5432/Spotify_project"
     engine = create_engine(f'postgresql://{connection_string}')
     print(engine.table_names())
     # Query data
-    sql_query = pd.read_sql_table('spotifydata', f'postgresql://{connection_string}')
+    sql_query = pd.read_sql_table('SpotifyData', f'postgresql://{connection_string}')
     # sql_query = engine.execute('SELECT * FROM spotifydata')
     # d, a = {}, []
     # for rowproxy in sql_query:

@@ -1,1 +1,1 @@
-api_key = "YOUR KEY HERE!"
+db_pass = 'ducktails1'
