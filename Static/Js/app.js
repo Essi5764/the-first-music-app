@@ -23,7 +23,8 @@ getData();
 function getData() {
 
     // Read data from CSV file
-    d3.csv("assets/data/Spotify_data.csv").then (function(data) {
+    d3.json("http://localhost:5000/SpotifyData").then (function(data) {
+        console.log(data);
         var select = d3.select("#selDataset")
         
         // Pull averages of variables for full dataset

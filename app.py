@@ -18,8 +18,9 @@ def home():
 def database_data():
     spotdata = data.get_db_data()
     #spotdata = {"this": "is my database data"}
-    return jsonify(spotdata)
-
+    response = jsonify(spotdata)
+    response.headers.add('Access-Control-Allow-Origin','*')
+    return response
 
 # @app.route('/api_data', methods=['GET'])
 # def api_data():
