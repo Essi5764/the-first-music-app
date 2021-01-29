@@ -15,11 +15,11 @@ Using javacript and html coding, we created an interface that shows the user a s
 ![Pic2.png](Screenshots/image2.png)
 
 # Back- end 
-* We set up a dabase using sql and importing the cvs file.
+* We set up a datebase using sql and imported the cvs file.
 See the code here:
-* We then created an API for our sql.
+* We then created an API for our sql to be able to call the data.
 See the code here:
-* Using the API and sqlachemy, We connected to the sql database and tranform it into a json data.
+* Using the API and sqlachemy, We connected to the sql database and we jsonified the data.
 See the code here:
 * Using d3.json we read the data into the javascript plotly to make the graphs 
 See the code [Here](Spotify_Project_G1/Static/Js/app.js)
