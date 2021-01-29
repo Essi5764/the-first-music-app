@@ -11,15 +11,16 @@ Using javacript and html coding, we created an interface that shows the user a s
 * Stacked bar visually shows which years had more explicit songs.
 * Scattered graph shows the top 10 songs for choosen year. 
 
+![Pic1.png](Screenshots/image1.png)
+![Pic2.png](Screenshots/image2.png)
+
 # Back- end 
 * We set up a dabase using sql and importing the cvs file.
 See the code here:
-* we the created a API for our sql.
+* We then created an API for our sql.
 See the code here:
-* We consumed the API using sqlachemy to connect to the sql database and tranform it into a json data.
+* Using the API and sqlachemy, We connected to the sql database and tranform it into a json data.
 See the code here:
 * Using d3.json we read the data into the javascript plotly to make the graphs 
-See the code [Here](static/Js/app.js)
+See the code [Here](Spotify_Project_G1/Static/Js/app.js)
 
-![Pic1.png](Screenshots/image1.png)
-![Pic2.png](Screenshots/image2.png)
