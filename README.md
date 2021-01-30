@@ -22,5 +22,5 @@ See the code here:
 * Using the API and sqlachemy, We connected to the sql database and we jsonified the data.
 See the code here:
 * Using d3.json we read the data into the javascript plotly to make the graphs 
-See the code [Here](Spotify_Project_G1/Static/Js/app.js)
+See the code [Here](https://github.com/Candy-Capilla/Spotify_project_G1/blob/main/Static/Js/app.js)
 
