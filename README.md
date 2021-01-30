@@ -16,11 +16,11 @@ Using javacript and html coding, we created an interface that shows the user a s
 
 # Back- end 
 * We set up a datebase using sql and imported the cvs file.
-See the code here:
+See the code [Here](https://github.com/Candy-Capilla/Spotify_project_G1/blob/main/Spotify.ipynb)
 * We then created an API for our sql to be able to call the data.
-See the code here:
+See the code [Here](https://github.com/Candy-Capilla/Spotify_project_G1/blob/main/data.py)
 * Using the API and sqlachemy, We connected to the sql database and we jsonified the data.
-See the code here:
-* Using d3.json we read the data into the javascript plotly to make the graphs 
+See the code [Here](https://github.com/Candy-Capilla/Spotify_project_G1/blob/main/app.py)
+* Using d3.json we read the data into the javascript plotly to make the graphs.
 See the code [Here](https://github.com/Candy-Capilla/Spotify_project_G1/blob/main/Static/Js/app.js)
 
